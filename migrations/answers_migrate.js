@@ -10,14 +10,16 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            question_id: {
+            questionId: {
                 allowNull: false,
-                primaryKey: true,
+                //primaryKey: true,
                 type: Sequelize.INTEGER,
+                field: 'question_id',
             },
-            right_answer: {
+            isCorrect: {
                 allowNull: false,
-                type: Sequelize.INTEGER,
+                type: Sequelize.BOOLEAN,
+                field: 'is_correct',
             },
             description: {
                 type: Sequelize.STRING,

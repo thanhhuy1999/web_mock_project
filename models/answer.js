@@ -5,13 +5,13 @@ let Sequelize = require("sequelize");
 let sequelize = require("../config/create_connect");
 
 // tao model users voi cac cot nhu ben duoi
-let User = sequelize.define("answer", {
+let answer = sequelize.define("answers", {
     description: Sequelize.STRING,
-    question_id: Sequelize.INTEGER,
-    right_answer: Sequelize.INTEGER
+    questionId: Sequelize.INTEGER,
+    isCorrect: Sequelize.INTEGER
 
 }, {
-    tableName: "answer",
+    tableName: "answers",
     indexes: [
         {
             unique: true,

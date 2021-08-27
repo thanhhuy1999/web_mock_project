@@ -3,7 +3,10 @@ let Sequelize = require("sequelize"); //import sequelize
 // tao db questionare bang sequelize
 let sequelize = new Sequelize("questionare", "root", "", {
     host: "localhost",
-    dialect: "mysql"
+    dialect: "mysql",
+    define: {
+        timestamps: false
+    }
 });
 
 
