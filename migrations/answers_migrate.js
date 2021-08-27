@@ -1,32 +1,33 @@
-//tao table user voi nhung cot nhu duoi
+//tao table answer voi nhung cot nhu duoi
 
 "use strict";
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable("users", {
+        return queryInterface.createTable("answers", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            username: {
-                type: Sequelize.STRING,
+            question_id: {
                 allowNull: false,
+                primaryKey: true,
+                type: Sequelize.INTEGER,
             },
-            role: {
-                type: Sequelize.ENUM("admin", "customer"),
+            right_answer: {
                 allowNull: false,
+                type: Sequelize.INTEGER,
             },
-            password: {
+            description: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
         }).then(() => {
-            return queryInterface.addIndex("users", ["id"])
+            return queryInterface.addIndex("answers", ["id"])
         });
     },
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable("users");
+        return queryInterface.dropTable("answers");
     },
 };

@@ -5,14 +5,13 @@ let Sequelize = require("sequelize");
 let sequelize = require("../config/create_connect");
 
 // tao model users voi cac cot nhu ben duoi
-let User = sequelize.define("users", {
-    username: Sequelize.STRING,
-    password: Sequelize.STRING,
-    role: {
-        type: Sequelize.ENUM("admin", "customer"),  //chi cho phep chon 1 trong 2
-    },
+let User = sequelize.define("answer", {
+    description: Sequelize.STRING,
+    question_id: Sequelize.INTEGER,
+    right_answer: Sequelize.INTEGER
+
 }, {
-    tableName: "users",
+    tableName: "answer",
     indexes: [
         {
             unique: true,
@@ -24,5 +23,5 @@ let User = sequelize.define("users", {
 });
 
 module.exports = {
-    User,
+    answer,
 };
