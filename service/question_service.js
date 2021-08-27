@@ -1,5 +1,6 @@
 let { Question } = require('../models/question')
-let { Answer } = require('../models/answer')
+let { Answer } = require('../models/answer');
+const { get } = require('express/lib/response');
 
 //
 let findOneModel = async (model, id) => {
@@ -44,14 +45,52 @@ let getQuestion = async (questionId) => {
         )
     }
     return {
+        question: getQuestion,
         answer: getAnswer,
-        question: getQuestion
     }
+}
+
+let updateQuestion = async (questionId, description) => {
+    let getQuestion = await findOneModel(Question, questionId);
+    if (getQuestion === null) {
+        return null
+    }
+    await Question.update({
+        description: description,
+
+    }, {
+        where: {
+            id: questionId
+        }
+    })
+    return result = await findOneModel(Question, questionId);
+
+}
+
+let deleteQuestion = async (questionId) => {
+    let getQuestion = await findOneModel(Question, questionId);
+    if (getQuestion === null) {
+        return null
+    }
+    await Question.destroy({
+        where: {
+            id: questionId
+        }
+    })
+    return { }
+}
+
+let getAllQuestion = async () => {
+    let result = await Question.findAll()
+    return result
 }
 
 module.exports = {
     createQuestion,
     getQuestion,
+    updateQuestion,
+    deleteQuestion,
+    getAllQuestion
 }
 
 

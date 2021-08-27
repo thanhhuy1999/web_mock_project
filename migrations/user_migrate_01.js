@@ -22,6 +22,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            score: {
+                type: Sequelize.FLOAT,
+                allowNull: true,
+            }
         }).then(() => {
             return queryInterface.addIndex("users", ["id"])
         });

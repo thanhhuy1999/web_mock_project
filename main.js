@@ -6,9 +6,10 @@ const morgan = require('morgan')
 const app = express()
 const port = 1304
 
-// app.use(morgan("dev"))
+// app.use(morgan("dev")
 app.use(bodyParser.json())
 app.use('/question', require('./controller/question_controller'))
+app.use('/answer', require('./controller/answer_controller'))
 
 app.listen(port, () => {
     console.log(`ThanhHuy'Server run at http://localhost:${port}`)

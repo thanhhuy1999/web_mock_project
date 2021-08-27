@@ -12,7 +12,6 @@ let Question = sequelize.define("questions", {
 },
     {
         tableName: "questions",
-        timestamps: false,
         indexes: [
             {
                 unique: true,

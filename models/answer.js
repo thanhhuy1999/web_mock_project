@@ -5,12 +5,13 @@ let Sequelize = require("sequelize");
 let sequelize = require("../config/create_connect");
 
 // tao model users voi cac cot nhu ben duoi
-let answer = sequelize.define("answers", {
+let Answer = sequelize.define("answers", {
     description: Sequelize.STRING,
     questionId: Sequelize.INTEGER,
-    isCorrect: Sequelize.INTEGER
+    isCorrect: Sequelize.BOOLEAN
 
 }, {
+
     tableName: "answers",
     indexes: [
         {
@@ -20,8 +21,9 @@ let answer = sequelize.define("answers", {
     ],
     charset: 'utf8',
     collate: 'utf8_unicode_ci',
+    underscored: true, //cho phep ten bien khac nhau o model va db
 });
 
 module.exports = {
-    answer,
+    Answer,
 };

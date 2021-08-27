@@ -4,6 +4,9 @@ let questionRouter = new express.Router()
 let {
     createQuestion,
     getQuestion,
+    updateQuestion,
+    deleteQuestion,
+    getAllQuestion
 } = require('../service/question_service')
 
 questionRouter.post('/', async (req, res) => {
@@ -26,7 +29,7 @@ questionRouter.get('/:questionId', async (req, res) => {
         let questionId = req.params.questionId;
         let result = await getQuestion(questionId);
         if (result === null) {
-            return res.status(404).send({ message: "Not found Post" });
+            return res.status(404).send({ message: "Not found Question" });
         }
         return res.send({
             message: "Sucessfully",
@@ -34,10 +37,61 @@ questionRouter.get('/:questionId', async (req, res) => {
         })
     }
     catch (error) {
-        console.log(error);
         return res.status(500).send({ error: "Server Error" });
     }
 })
 
+questionRouter.put("/:questionId", async (req, res) => {
+    try {
+        let questionId = req.params.questionId;
+        let description = req.body.description;
+        // let validator = await questionValidator(req);
+        // if (validator !== null) {
+        //     return res.send({ message: validator });
+        // }
+        let result = await updateQuestion(questionId, description);
+        if (result === null) {
+            return res.status(404).send({ message: "Not found Question" });
+        }
+        return res.send({
+            message: "Update successfully.",
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).send({ error: "Server Error" });
+    }
+});
+
+
+questionRouter.delete("/:questionId", async (req, res) => {
+    try {
+        let questionId = req.params.questionId;
+        let result = await deleteQuestion(questionId);
+        if (result === null) {
+            return res.status(404).send({ message: "Not found Question" });
+        }
+        return res.send({
+            message: "Delete successfully.",
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).send({ error: "Server Error" });
+    }
+});
+
+questionRouter.get("/", async (req, res) => {
+    try {
+        let result = await getAllQuestion();
+        if (result === null) {
+            return res.status(404).send({ message: "Not found Question" });
+        }
+        return res.send({
+            message: "Sucess successfully.",
+            data: result
+        });
+    } catch (error) {
+        return res.status(500).send({ error: "Server Error" });
+    }
+})
 
 module.exports = questionRouter
