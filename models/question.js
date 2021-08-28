@@ -4,7 +4,7 @@
 let Sequelize = require("sequelize");
 let sequelize = require("../config/create_connect");
 
-let { answers } = require("./answer")
+let { Answer } = require("./answer")
 
 // tao model question voi cac cot nhu ben duoi
 let Question = sequelize.define("questions", {
@@ -23,10 +23,13 @@ let Question = sequelize.define("questions", {
     });
 
 //Relationships
-// Question.hasMany(answers, {
-//     as: "answers",
-//     foreignKey: "questionId",
+// Question.hasMany(Answer, {
+//     foreignKey: "question_id"
 // });
+// Answer.belongsTo(Question, {
+//     foreignKey: "question_id",
+//     as: "questions"
+// })
 
 
 module.exports = {

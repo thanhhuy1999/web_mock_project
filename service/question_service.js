@@ -2,7 +2,7 @@ let { Question } = require('../models/question')
 let { Answer } = require('../models/answer');
 const { get } = require('express/lib/response');
 
-//
+//creat a template fuction to use after
 let findOneModel = async (model, id) => {
     return await model.findOne({
         //   attributes: {exclude: ["password", "role"]},
@@ -24,6 +24,7 @@ let createQuestion = async (questionDescription) => {
 // truyen vao questionId => tra ve question va 1 mang answer
 let getQuestion = async (questionId) => {
     let getQuestion = await Question.findOne({
+
         where: {
             id: questionId,
         }
@@ -38,6 +39,9 @@ let getQuestion = async (questionId) => {
     if (getQuestion !== null) {
         getAnswer = await Answer.findAll(
             {
+                attributes: {
+                    exclude: ['isCorrect', 'questionId']
+                },
                 where: {
                     questionId: questionId,
                 }

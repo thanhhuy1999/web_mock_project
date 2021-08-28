@@ -21,7 +21,7 @@ let Answer = sequelize.define("answers", {
     ],
     charset: 'utf8',
     collate: 'utf8_unicode_ci',
-    underscored: true, //cho phep ten bien khac nhau o model va db
+    underscored: true,  //cho phep ten bien khac nhau o model va db
 });
 
 module.exports = {

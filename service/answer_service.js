@@ -73,7 +73,12 @@ let deleteAnswer = async (answerId) => {
 let getAnswerByQuestionId = async (questionId) => {
     let getAnswer = await Answer.findAll(
         {
+            attributes: {
+                exclude: ['isCorrect', 'questionId']
+
+            },
             where: {
+
                 questionId: questionId,
             }
         }
