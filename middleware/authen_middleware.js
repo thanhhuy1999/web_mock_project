@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+let jwtSecretKey = require('./config/config')
 
 const checkAuth = (req, res, next) => {
     const authHeader = req.header('Authorization');
@@ -9,8 +10,8 @@ const checkAuth = (req, res, next) => {
             .json({ success: false, message: 'Access token not found' });
 
     try {
-        const decodedToken = jwt.verify(token, 'thanhhuy');
-        req.userRole = decodedToken;
+        const decodedToken = jwt.verify(token, jwtSecretKey);
+        // req.userRole = decodedToken;
         next();
     } catch (error) {
         console.log(error);

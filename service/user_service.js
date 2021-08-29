@@ -2,6 +2,7 @@ let { User } = require("../models/user");
 let bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const req = require("express/lib/request");
+let jwtSecretKey = require('./config/config')
 
 let findUser = async (body) => {
     return await User.findOne({
@@ -39,40 +40,22 @@ let signIn = async (req) => {
             token: ""
         }
     }
-
-    const tmp = ""
-    tmp = "cut"
-    bcryptjs.compare(req.body.password, user.password, function (err, result) {
-        // console.log('result = ' + result);
-        if (!result) {
-            return {
-                success: false,
-                message: "false",
-                token: ""
-            }
+    let compare = bcryptjs.compare(req.body.password, user.password);
+    if (!compare) {
+        return {
+            success: false,
+            message: "false",
+            token: ""
         }
-        // console.log('err' + err);
-        const token = jwt.sign({
-            role: user.role,
-            account: user.username
-        },
-            'thanhhuy', (err, token) => {
-                console.log(token);
-                tmp = token
-                console.log(tmp);
-                // console.log('err2: ' + err);
-                // return {
-                //     success: true,
-                //     message: "Authentication successful!",
-                //     token: token
-                // };
-            });
-        // tmp = token
-    });
+    }
+    let token = jwt.sign({
+        role: user.role,
+        account: user.username
+    },jwtSecretKey);
     return {
         success: true,
         message: "Authentication successful!",
-        token: tmp
+        token: token
     };
 }
 
