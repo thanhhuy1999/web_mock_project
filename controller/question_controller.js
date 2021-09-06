@@ -10,6 +10,14 @@ let {
     getAllQuestion
 } = require('../service/question_service')
 
+
+/********************************************************************************************************************
+ * Method: POST
+ * Router: /question
+ * Description:  Create Question by questionId (write in database)
+ *     when user access to api /question by POST method, firstly, check Authentication, then get data from request of
+ *                  body -> send data to service to create answer and send notice for user        
+*******************************************************************************************************************/
 questionRouter.post('/', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let description = req.body.description;
@@ -21,10 +29,17 @@ questionRouter.post('/', authenMiddleware.checkAuth, async (req, res) => {
     }
     catch (error) {
         // console.log(error);
-        return res.status(500).send({ error: 'Internal Server Error/cuong' })
+        return res.status(500).send({ error: 'Internal Server Error' })
     }
 })
 
+/********************************************************************************************************************
+ * Method: GET
+ * Router: /question/:questionId
+ * Description: Get (read) Question  by questionId (from database)
+    when user access to api /question/:questionId by GET method, firstly, check Authentication, then get data 
+            from request of  params -> send data to service to get question by questionId and send notice for user        
+*******************************************************************************************************************/
 questionRouter.get('/:questionId', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
@@ -42,6 +57,13 @@ questionRouter.get('/:questionId', authenMiddleware.checkAuth, async (req, res) 
     }
 })
 
+/********************************************************************************************************************
+ * Method: PUT
+ * Router: /question/:questionId
+ * Description: Update Question by questionId (from database)
+    when user access to api /question/:questionId by PUT method, firstly, check Authentication, then get data 
+            from request of params -> send data to service to update question by questionId and send notice for user        
+*******************************************************************************************************************/
 questionRouter.put("/:questionId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
@@ -64,6 +86,13 @@ questionRouter.put("/:questionId", authenMiddleware.checkAuth, async (req, res) 
 });
 
 
+/********************************************************************************************************************
+ * Method: DELETE
+ * Router: /question/:questionId
+ * Description: Delete Question by questionId (from database)
+    when user access to api /question/:questionId by DELETE method, firstly, check Authentication, then get data 
+            from request of params -> send data to service to delete question by questionId and send notice for user        
+*******************************************************************************************************************/
 questionRouter.delete("/:questionId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
@@ -80,6 +109,13 @@ questionRouter.delete("/:questionId", authenMiddleware.checkAuth, async (req, re
     }
 });
 
+/********************************************************************************************************************
+ * Method: GET
+ * Router: /question
+ * Description: Get all questions (from database)
+    when user access to api /question/:questionId by GET method, firstly, check Authentication, then get data 
+            from request of params -> send data to service to get all question and send notice for user        
+*******************************************************************************************************************/
 questionRouter.get("/", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let result = await getAllQuestion();
