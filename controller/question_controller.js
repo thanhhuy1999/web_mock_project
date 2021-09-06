@@ -1,6 +1,6 @@
 let express = require('express')
 let questionRouter = new express.Router()
-
+let authenMiddleware = require('../middleware/authen_middleware')
 
 let {
     createQuestion,
@@ -10,7 +10,7 @@ let {
     getAllQuestion
 } = require('../service/question_service')
 
-questionRouter.post('/', async (req, res) => {
+questionRouter.post('/', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let description = req.body.description;
         let result = await createQuestion(description)
@@ -25,7 +25,7 @@ questionRouter.post('/', async (req, res) => {
     }
 })
 
-questionRouter.get('/:questionId', async (req, res) => {
+questionRouter.get('/:questionId', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
         let result = await getQuestion(questionId);
@@ -42,7 +42,7 @@ questionRouter.get('/:questionId', async (req, res) => {
     }
 })
 
-questionRouter.put("/:questionId", async (req, res) => {
+questionRouter.put("/:questionId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
         let description = req.body.description;
@@ -64,7 +64,7 @@ questionRouter.put("/:questionId", async (req, res) => {
 });
 
 
-questionRouter.delete("/:questionId", async (req, res) => {
+questionRouter.delete("/:questionId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
         let result = await deleteQuestion(questionId);
@@ -80,7 +80,7 @@ questionRouter.delete("/:questionId", async (req, res) => {
     }
 });
 
-questionRouter.get("/", async (req, res) => {
+questionRouter.get("/", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let result = await getAllQuestion();
         if (result === null) {

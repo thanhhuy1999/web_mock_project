@@ -1,5 +1,6 @@
 let express = require('express')
 let answerRouter = new express.Router()
+let authenMiddleware = require('../middleware/authen_middleware')
 
 let {
     createAnswer,
@@ -9,7 +10,15 @@ let {
     getAnswerByQuestionId,
 } = require('../service/answer_service')
 
-answerRouter.post('/', async (req, res) => {
+/********************************************************************************************************************
+ * Method: POST
+ * Router: /answer
+ * Description:  Create Answers (write in database)
+ *     when user access to api /answer by POST method, firstly, check Authentication, then get data from request of
+ *                  body -> send data to service to create answer and send notice for user        
+*******************************************************************************************************************/
+
+answerRouter.post('/', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let description = req.body.description;
         let questionId = req.body.questionId;
@@ -27,7 +36,15 @@ answerRouter.post('/', async (req, res) => {
     }
 })
 
-answerRouter.get('/:answerId', async (req, res) => {
+/********************************************************************************************************************
+ * Method: GET
+ * Router: /answer/:answerId
+ * Description:  Read answer from database
+ *when user access to api /answer/:answerId by GET method,, firstly, check Authentication, then get data from request of
+ *                  params -> send data to service to check and get answer by answerId
+*******************************************************************************************************************/
+
+answerRouter.get('/:answerId', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let answerId = req.params.answerId;
         let result = await getAnswer(answerId);
@@ -45,7 +62,14 @@ answerRouter.get('/:answerId', async (req, res) => {
     }
 })
 
-answerRouter.put("/:answerId", async (req, res) => {
+/********************************************************************************************************************
+ * Method: PUT
+ * Router: /answer/:answerId
+ * Description:  Update answer (modify in database)
+ when user access to api /answer/:answerId by PUT method, firstly, check Authentication, then get data from request of
+ *                  params and body-> send data to service to check and update answer by answerId
+*******************************************************************************************************************/
+answerRouter.put("/:answerId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let answerId = req.params.answerId;
         let isCorrect = req.body.isCorrect;
@@ -68,7 +92,15 @@ answerRouter.put("/:answerId", async (req, res) => {
 });
 
 
-answerRouter.delete("/:answerId", async (req, res) => {
+/********************************************************************************************************************
+ * Method: DELETE
+ * Router: /answer/:answerId
+ * Description:  Delete answer (delete in database)
+ when user access to api /answer/:answerId by DELETE method,, firstly, check Authentication, then get data from request of
+ *                  params and body-> send data to service to check and delete answer by answerId
+*******************************************************************************************************************/
+
+answerRouter.delete("/:answerId", authenMiddleware.checkAuth, async (req, res) => {
     try {
         let answerId = req.params.answerId;
         let result = await deleteAnswer(answerId);
@@ -84,7 +116,14 @@ answerRouter.delete("/:answerId", async (req, res) => {
     }
 });
 
-answerRouter.get('/question/:questionId', async (req, res) => {
+/********************************************************************************************************************
+ * Method: GET
+ * Router: /answers/question/:questionId
+ * Description:  Get answers by questionId 
+        when user access to api /answers/question/:questionId by GET method,, firstly, check Authentication, 
+         then get data from request of params -> send data to service to check and get answer by questionId
+*******************************************************************************************************************/
+answerRouter.get('/question/:questionId', authenMiddleware.checkAuth, async (req, res) => {
     try {
         let questionId = req.params.questionId;
         let result = await getAnswerByQuestionId(questionId);

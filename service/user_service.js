@@ -2,7 +2,13 @@ let { User } = require("../models/user");
 let bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const req = require("express/lib/request");
-let jwtSecretKey = require('./config/config')
+let jwtSecretKey = require('../config/config')
+
+/********************************************************************************************************************
+ * Function: findUser()
+ * Description: create findUser return user which find by username from body
+ * It's a function to use later
+*******************************************************************************************************************/
 
 let findUser = async (body) => {
     return await User.findOne({
@@ -11,6 +17,13 @@ let findUser = async (body) => {
         },
     });
 }
+
+/********************************************************************************************************************
+ * Function: register()
+ * Description: execute some mission: check used user -> user haven't used before -> create a new user
+ *                      -> hash password to save a database, init role is customer                    
+ * It's a function to use when recieve data from controller
+*******************************************************************************************************************/
 
 let register = async (body) => {
     let user = await findUser(body);
@@ -31,12 +44,19 @@ let register = async (body) => {
     return true;
 }
 
+
+/********************************************************************************************************************
+ * Function: signIn()
+ * Description: execute some mission: check user from body of request -> if user was register -> check password
+ *                      -> password is correct -> return a notice and a token which expired after 60 second                 
+ * It's a function to use when recieve data from controller
+*******************************************************************************************************************/
 let signIn = async (req) => {
     let user = await findUser(req.body);
     if (user === null) {
         return {
             success: false,
-            message: "false",
+            message: "UserName undefined",
             token: ""
         }
     }
@@ -44,14 +64,16 @@ let signIn = async (req) => {
     if (!compare) {
         return {
             success: false,
-            message: "false",
+            message: "Password is incorrect",
             token: ""
         }
     }
     let token = jwt.sign({
         role: user.role,
         account: user.username
-    },jwtSecretKey);
+    }, jwtSecretKey,
+        { expiresIn: 60 }
+    );
     return {
         success: true,
         message: "Authentication successful!",
@@ -63,3 +85,5 @@ module.exports = {
     register,
     signIn
 };
+
+

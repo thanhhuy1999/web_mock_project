@@ -1,7 +1,7 @@
 let { Answer } = require('../models/answer');
 const { get } = require('express/lib/response');
 
-//
+//create a function to get a user from model by id
 let findOneModel = async (model, id) => {
     return await model.findOne({
         //   attributes: {exclude: ["password", "role"]},
@@ -23,7 +23,7 @@ let createAnswer = async (answerDescription, questionId, isCorrect) => {
     return result;
 }
 
-// truyen vao answerId => tra ve answer va 1 mang answer
+// get Answer from database by answerId 
 let getAnswer = async (answerId) => {
     let getAnswer = await Answer.findOne({
         where: {
@@ -40,6 +40,7 @@ let getAnswer = async (answerId) => {
     }
 }
 
+//check and allow update answers
 let updateAnswer = async (answerId, description, isCorrect) => {
     let getAnswer = await findOneModel(Answer, answerId);
     if (getAnswer === null) {
@@ -57,6 +58,7 @@ let updateAnswer = async (answerId, description, isCorrect) => {
 
 }
 
+//check and allow delete answer
 let deleteAnswer = async (answerId) => {
     let getAnswer = await findOneModel(Answer, answerId);
     if (getAnswer === null) {
@@ -67,9 +69,10 @@ let deleteAnswer = async (answerId) => {
             id: answerId
         }
     })
-    return { }
+    return {}
 }
 
+//allow  get answer by questionId
 let getAnswerByQuestionId = async (questionId) => {
     let getAnswer = await Answer.findAll(
         {
