@@ -53,6 +53,7 @@ let register = async (body) => {
 *******************************************************************************************************************/
 let signIn = async (req) => {
     let user = await findUser(req.body);
+    //check user has been used
     if (user === null) {
         return {
             success: false,
@@ -60,6 +61,8 @@ let signIn = async (req) => {
             token: ""
         }
     }
+
+    // check password
     let compare = bcryptjs.compare(req.body.password, user.password);
     if (!compare) {
         return {
@@ -68,6 +71,8 @@ let signIn = async (req) => {
             token: ""
         }
     }
+
+    //create token by data received from controller
     let token = jwt.sign({
         role: user.role,
         account: user.username
