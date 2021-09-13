@@ -3,7 +3,7 @@ const url = require('url')
 const querystring = require('querystring')
 var bodyParser = require('body-parser')
 // const morgan = require('morgan')
-// const cors = require('cors')
+const cors = require('cors')
 let expressValidator = require('express-validator')
 let session = require('express-session');
 let MySQLStore = require('express-mysql-session')(session);
@@ -29,9 +29,9 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(expressValidator())
-// app.use(cors({
-//     origin: '*'
-// }));
+app.use(cors({
+    origin: '*'
+}));
 
 // app.use(morgan("dev")
 app.use(bodyParser.json())
